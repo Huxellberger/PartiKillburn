@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace PartiKillburnTests
+namespace PartiKillburnTestFixture
 {		
 	TEST_CLASS(UnitTest1)
 	{
