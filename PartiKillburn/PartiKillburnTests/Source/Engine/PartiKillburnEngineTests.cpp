@@ -4,6 +4,7 @@
 #include "CppUnitTest.h"
 
 #include "Source/Engine/TestPartiKillburnEngine.h"
+#include <Source/Public/Engine/PartiKillburnEngine.h>
 
 #include <memory>
 

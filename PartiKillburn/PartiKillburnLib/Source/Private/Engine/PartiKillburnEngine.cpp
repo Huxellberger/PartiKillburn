@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Source/Public/Engine/PartiKillburnEngine.h"
+#include <Dependencies/freeglut/freeglut.h>
 
 // ------------------------------------------------------------
 
