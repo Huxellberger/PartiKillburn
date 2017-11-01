@@ -21,7 +21,7 @@ protected:
 	virtual void UpdatePositions() {}
 	virtual void SortAlphaBlending() {}
 	virtual void TransferTextureData() {}
-	virtual void RenderParticles() {}
+	virtual void RenderParticles();
 
 	// verlet integration relies on a constant time delta
 	const float updateDelta;
