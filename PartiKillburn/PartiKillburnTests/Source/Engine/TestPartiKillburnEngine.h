@@ -3,6 +3,10 @@
 #pragma once
 
 #include "Source/Public/Engine/PartiKillburnEngine.h"
+#include "Source/Public/Particle/Particle.h"
+#include "Source/Public/Particle/ParticleSystem.h"
+
+#include <vector>
 
 // ------------------------------------------------------------
 
@@ -12,7 +16,7 @@ class TestPartiKillburnEngine
 public:
 
 	TestPartiKillburnEngine(const float inTimeDelta)
-		: PartiKillburnEngine(inTimeDelta)
+		: PartiKillburnEngine(ParticleSystem(std::vector<ParticleParams>(), 0u), inTimeDelta)
 		, updateLifetimesCalled(false)
 		, updateVelocitiesCalled(false)
 		, updatePositionsCalled(false)
