@@ -6,8 +6,9 @@
 
 // ------------------------------------------------------------
 
-PartiKillburnEngine::PartiKillburnEngine(const float inUpdateDelta)
-	: updateDelta(inUpdateDelta)
+PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta)
+	: particleSystem(inSystem)
+	, updateDelta(inUpdateDelta)
 {
 }
 

@@ -2,13 +2,15 @@
 
 #pragma once
 
+#include "PartiKillburnLib/Source/Public/Particle/ParticleSystem.h"
+
 // ------------------------------------------------------------
 
 class PartiKillburnEngine
 {
 public:
 
-	PartiKillburnEngine(const float inUpdateDelta);
+	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void Update();
@@ -22,6 +24,8 @@ protected:
 	virtual void SortAlphaBlending() {}
 	virtual void TransferTextureData() {}
 	virtual void RenderParticles();
+
+	ParticleSystem particleSystem;
 
 	// verlet integration relies on a constant time delta
 	const float updateDelta;

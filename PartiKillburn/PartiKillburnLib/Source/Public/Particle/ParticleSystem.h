@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Source/Public/Particle/Particle.h"
+#include "PartiKillburnLib/Source/Public/Particle/Particle.h"
 
 #include <basetsd.h>
 #include <vector>

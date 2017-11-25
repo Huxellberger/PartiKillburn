@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Source/Public/Particle/Vector3.h"
+#include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
 
 // ------------------------------------------------------------
 

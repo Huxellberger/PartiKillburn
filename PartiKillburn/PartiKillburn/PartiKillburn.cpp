@@ -5,10 +5,20 @@
 
 #include <Dependencies/freeglut/freeglut.h>
 #include <PartiKillburnLib/Source/Public/Engine/PartiKillburnEngine.h>
+#include <PartiKillburnLib/Source/Public/Particle/Particle.h>
+#include <PartiKillburnLib/Source/Public/Particle/ParticleSystem.h>
+#include <PartiKillburnLib/Source/Public/Particle/Vector3.h>
+
+#include <vector>
 
 namespace PartiKillburn
 {
-	static PartiKillburnEngine Engine(PartiKillburnConstants::UpdateSpeed);
+	static std::vector<ParticleParams> GetDefaultParticleParams()
+	{
+		return std::vector<ParticleParams>{ ParticleParams(Vector3(1.0f, 2.0f, 3.0f), 1.0f, false) };
+	}
+
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams(), PartiKillburnConstants::DefaultParticleCount), PartiKillburnConstants::UpdateSpeed);
 
 	void Update()
 	{
