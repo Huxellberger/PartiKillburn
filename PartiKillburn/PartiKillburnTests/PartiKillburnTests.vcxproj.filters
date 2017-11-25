@@ -24,6 +24,9 @@
     <ClInclude Include="Source\Engine\TestPartiKillburnEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Particle\VectorTestFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -33,6 +36,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\PartiKillburnEngineTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle\ParticleTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle\Vector3Tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
