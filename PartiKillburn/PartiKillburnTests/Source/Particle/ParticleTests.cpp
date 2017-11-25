@@ -19,7 +19,7 @@ namespace ParticleTestFixture
 		TEST_METHOD(Created_StartingParamsAreCorrect)
 		{
 			const Vector3 expectedVector = Vector3(3.5f, 2.1f, 1.0f);
-			auto testParticle = Particle(expectedVector, 1.0f, false);
+			auto testParticle = Particle(ParticleParams(expectedVector, 1.0f, false));
 
 			Assert::AreEqual(expectedVector, testParticle.currentPosition);
 			Assert::IsFalse(testParticle.resting);
@@ -28,21 +28,21 @@ namespace ParticleTestFixture
 		TEST_METHOD(GetSize_MatchesChosenSize)
 		{
 			const float selectedSize = 2.5f;
-			auto testParticle = Particle(Vector3(), selectedSize, true);
+			auto testParticle = Particle(ParticleParams(Vector3(), selectedSize, true));
 
 			Assert::AreEqual(selectedSize, testParticle.GetSize());
 		}
 
 		TEST_METHOD(CanDrift_SetTrue_True)
 		{
-			auto testParticle = Particle(Vector3(), 0.0f, true);
+			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, true));
 
 			Assert::IsTrue(testParticle.CanDrift());
 		}
 
 		TEST_METHOD(CanDrift_SetFalse_False)
 		{
-			auto testParticle = Particle(Vector3(), 0.0f, false);
+			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, false));
 
 			Assert::IsFalse(testParticle.CanDrift());
 		}

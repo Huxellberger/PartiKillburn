@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\PartiKillburnEngineTests.cpp" />
+    <ClCompile Include="Source\Particle\ParticleSystemTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleTests.cpp" />
     <ClCompile Include="Source\Particle\Vector3Tests.cpp" />
     <ClCompile Include="stdafx.cpp">

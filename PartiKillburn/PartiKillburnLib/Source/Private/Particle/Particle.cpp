@@ -5,26 +5,19 @@
 
 // ------------------------------------------------------------
 
-Particle::Particle(const Vector3& inStartPos, float inSize, bool inDrift)
-	: currentPosition(inStartPos)
+Particle::Particle()
+	: Particle(ParticleParams())
+{
+}
+
+// ------------------------------------------------------------
+
+Particle::Particle(const ParticleParams& inParams)
+	: currentPosition(inParams.startPosition)
 	, resting(false)
-	, size(inSize)
-	, drift(inDrift)
+	, size(inParams.size)
+	, drift(inParams.drift)
 {
-}
-
-// ------------------------------------------------------------
-
-inline const bool Particle::CanDrift() const
-{
-	return drift;
-}
-
-// ------------------------------------------------------------
-
-inline const float Particle::GetSize() const
-{
-	return size;
 }
 
 // ------------------------------------------------------------

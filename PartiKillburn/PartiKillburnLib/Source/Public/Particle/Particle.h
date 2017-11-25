@@ -6,14 +6,47 @@
 
 // ------------------------------------------------------------
 
-class _declspec(dllexport) Particle
+struct ParticleParams
 {
 public:
 
-	Particle(const Vector3& inStartPos, float inSize, bool inDrift);
+	ParticleParams()
+		: startPosition(Vector3())
+		, size(0.f)
+		, drift(true)
+	{
+	}
 
-	inline const bool CanDrift() const;
-	inline const float GetSize() const;
+	explicit ParticleParams(const Vector3& inStartPos, float inSize, bool inDrift)
+		: startPosition(inStartPos)
+		, size(inSize)
+		, drift(inDrift)
+	{
+	}
+
+	Vector3 startPosition;
+	float size;
+	bool drift;
+};
+
+// ------------------------------------------------------------
+
+class Particle
+{
+public:
+
+	Particle();
+	explicit Particle(const ParticleParams& inParams);
+
+	inline const bool CanDrift() const
+	{
+		return drift;
+	}
+
+	inline const float GetSize() const
+	{
+		return size;
+	}
 
 	Vector3 currentPosition;
 	bool resting;
