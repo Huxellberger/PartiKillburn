@@ -15,6 +15,7 @@ class ParticleSystem
 {
 public:
 
+	ParticleSystem();
 	ParticleSystem(const std::vector<ParticleParams>& inParamTypes, ParticleSystemCount inCount);
 
 	void Update();

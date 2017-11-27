@@ -8,8 +8,17 @@
 
 PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta)
 	: particleSystem(inSystem)
+	, windDirection()
 	, updateDelta(inUpdateDelta)
 {
+}
+
+// ------------------------------------------------------------
+
+// Magnitude of said vector determines the strength.
+void PartiKillburnEngine::SetWindDirection(Vector3 inWindDirection)
+{
+	windDirection = inWindDirection;
 }
 
 // ------------------------------------------------------------

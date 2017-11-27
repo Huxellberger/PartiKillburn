@@ -15,8 +15,8 @@ class TestPartiKillburnEngine
 {
 public:
 
-	TestPartiKillburnEngine(const float inTimeDelta)
-		: PartiKillburnEngine(ParticleSystem(std::vector<ParticleParams>(), 0u), inTimeDelta)
+	TestPartiKillburnEngine(const ParticleSystem& inSystem, const float inTimeDelta)
+		: PartiKillburnEngine(inSystem, inTimeDelta)
 		, updateLifetimesCalled(false)
 		, updateVelocitiesCalled(false)
 		, updatePositionsCalled(false)
@@ -29,6 +29,16 @@ public:
 	const float GetTimeDelta() const
 	{
 		return updateDelta;
+	}
+
+	const Vector3 GetWindDirection() const
+	{
+		return windDirection;
+	}
+
+	const ParticleSystem GetParticleSystem() const
+	{
+		return particleSystem;
 	}
 
 	bool updateLifetimesCalled;

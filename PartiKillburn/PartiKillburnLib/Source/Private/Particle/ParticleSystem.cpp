@@ -7,6 +7,13 @@
 
 // ------------------------------------------------------------
 
+ParticleSystem::ParticleSystem()
+	: ParticleSystem(std::vector<ParticleParams>(), 0u)
+{
+}
+
+// ------------------------------------------------------------
+
 ParticleSystem::ParticleSystem(const std::vector<ParticleParams>& inParamTypes, ParticleSystemCount inCount)
 	: particles(new Particle[inCount])
 	, paramTypes(inParamTypes)
