@@ -12,6 +12,7 @@
 *.cache
 *.dll
 *.obj
+*.lib
 *.appxrecipe
 *.exe
 *.tlog
