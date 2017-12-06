@@ -13,7 +13,6 @@
 *.dll
 *.obj
 *.appxrecipe
-*.lib
 *.exe
 *.tlog
 *.winmd
