@@ -4,15 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PartiKillburnLib", "PartiKillburnLib\PartiKillburnLib.vcxproj", "{3433546B-8BF1-478B-8A35-B78A9415B6D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1AE4E979-0D35-4747-BF8E-DD60358F49DB} = {1AE4E979-0D35-4747-BF8E-DD60358F49DB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PartiKillburnTests", "PartiKillburnTests\PartiKillburnTests.vcxproj", "{B2611188-0C2D-4AE6-85AE-71761EB81865}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3433546B-8BF1-478B-8A35-B78A9415B6D4} = {3433546B-8BF1-478B-8A35-B78A9415B6D4}
+		{1AE4E979-0D35-4747-BF8E-DD60358F49DB} = {1AE4E979-0D35-4747-BF8E-DD60358F49DB}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PartiKillburn", "PartiKillburn\PartiKillburn.vcxproj", "{30519052-106B-4DC1-9220-EEBD13823C7E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3433546B-8BF1-478B-8A35-B78A9415B6D4} = {3433546B-8BF1-478B-8A35-B78A9415B6D4}
+		{1AE4E979-0D35-4747-BF8E-DD60358F49DB} = {1AE4E979-0D35-4747-BF8E-DD60358F49DB}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freeglut", "freeglut-2.8.1\VisualStudio\2012\freeglut.vcxproj", "{1AE4E979-0D35-4747-BF8E-DD60358F49DB}"
