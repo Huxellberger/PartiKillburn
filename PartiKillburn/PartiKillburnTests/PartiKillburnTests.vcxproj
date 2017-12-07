@@ -23,7 +23,7 @@
     <ProjectGuid>{B2611188-0C2D-4AE6-85AE-71761EB81865}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PartiKillburnTests</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\PartiKillburnEngineTests.cpp" />
+    <ClCompile Include="Source\Particle\BoundsTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleSystemTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleTests.cpp" />
     <ClCompile Include="Source\Particle\Vector3Tests.cpp" />

@@ -23,7 +23,7 @@
     <ProjectGuid>{30519052-106B-4DC1-9220-EEBD13823C7E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PartiKillburn</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

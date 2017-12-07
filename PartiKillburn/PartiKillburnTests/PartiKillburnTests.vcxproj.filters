@@ -47,5 +47,8 @@
     <ClCompile Include="Source\Particle\ParticleSystemTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Particle\BoundsTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

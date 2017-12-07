@@ -3,6 +3,11 @@
 #include "stdafx.h"
 #include "Source/Public/Engine/PartiKillburnEngine.h"
 #include <Dependencies/freeglut/freeglut.h>
+#include <time.h>
+
+// ------------------------------------------------------------
+
+RandomGeneration PartiKillburnEngine::randomGenerator = RandomGeneration((unsigned int)time(nullptr));
 
 // ------------------------------------------------------------
 
@@ -11,6 +16,7 @@ PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float i
 	, windDirection()
 	, updateDelta(inUpdateDelta)
 {
+	randomGenerator.seed((unsigned int) time(nullptr));
 }
 
 // ------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "PartiKillburnLib/Source/Public/Engine/RandomGeneration.h"
 #include "PartiKillburnLib/Source/Public/Particle/ParticleSystem.h"
 
 // ------------------------------------------------------------
@@ -9,6 +10,8 @@
 class PartiKillburnEngine
 {
 public:
+
+	static RandomGeneration randomGenerator;
 
 	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
