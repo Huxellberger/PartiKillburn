@@ -14,8 +14,10 @@ public:
 	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDeltaSeconds);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
+	void Initialise();
 	void SetWindDirection(Vector3 inWindDirection);
 	void Update();
+	void Resize(int w, int h);
 
 protected:
 
@@ -26,6 +28,8 @@ protected:
 	virtual void SortAlphaBlending() {}
 	virtual void TransferTextureData() {}
 	virtual void RenderParticles();
+
+	void SetView();
 
 	ParticleSystem particleSystem;
 

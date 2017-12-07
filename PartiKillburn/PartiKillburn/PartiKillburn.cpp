@@ -17,21 +17,28 @@ namespace PartiKillburn
 {
 	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return ParticleSystemParams(Bounds(Vector3(0.0f, 10.0f, -10.0f), Vector3(10.0f, 10.0f, 10.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 1.0f, 3.0f, 0.5f, PartiKillburnConstants::DefaultParticleCount);
+		return ParticleSystemParams(Bounds(Vector3(-10.0f, 0.0f, -20.0f), Vector3(15.0f, 0.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 2.0f, 3.0f, 0.0f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
 	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds);
 
 	void Update()
 	{
+		
 		auto&& startTime = std::chrono::high_resolution_clock::now();
 		Engine.Update();
 		auto&& endTime = std::chrono::high_resolution_clock::now();
-		auto&& timespan = std::chrono::duration_cast<std::chrono::duration<double>>(startTime - endTime);
+		auto&& timespan = std::chrono::duration_cast<std::chrono::duration<double>>(endTime - startTime);
 		if (timespan.count() < PartiKillburnConstants::UpdateSpeedSeconds)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds((long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000)));
+			const long sleepTime = (long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000);
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 		}
+	}
+
+	void Resize(int w, int h)
+	{
+		Engine.Resize(w, h);
 	}
 
 	void Idle()
@@ -52,7 +59,9 @@ int main(int argc, char **argv)
 	glutInitWindowSize(PartiKillburnConstants::WindowSizeX, PartiKillburnConstants::WindowSizeY);
 	glutCreateWindow("Christmas ALREADY?");
 
+	PartiKillburn::Engine.Initialise();
 	glutDisplayFunc(PartiKillburn::Update);
+	glutReshapeFunc(PartiKillburn::Resize);
 	glutIdleFunc(PartiKillburn::Idle);
 	glutMainLoop();
 
