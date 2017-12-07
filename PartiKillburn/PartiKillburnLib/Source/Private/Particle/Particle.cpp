@@ -16,7 +16,9 @@ Particle::Particle(const ParticleParams& inParams)
 	: currentPosition(inParams.startPosition)
 	, resting(false)
 	, startPosition(inParams.startPosition)
+	, priorPosition(inParams.startPosition)
 	, size(inParams.size)
+	, lifetime(0.0f)
 	, drift(inParams.drift)
 {
 }

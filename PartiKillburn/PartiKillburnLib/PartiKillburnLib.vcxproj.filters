@@ -45,6 +45,9 @@
     <ClInclude Include="Source\Public\Particle\ParticleColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\Engine\PartiKillburnEngineConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

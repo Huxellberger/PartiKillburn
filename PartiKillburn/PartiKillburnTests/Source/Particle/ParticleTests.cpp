@@ -47,6 +47,32 @@ namespace ParticleTestFixture
 
 			Assert::IsFalse(testParticle.CanDrift());
 		}
+
+		TEST_METHOD(UpdatePosition__WindModified_CalculatesExpectedNewPositionViaVerletIntegration)
+		{
+			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, true));
+			const Vector3 wind = Vector3(10.0f, 10.0f, 10.0f);
+			const float timeDelta = 2.0f;
+			const float timeDeltaSquared = timeDelta * timeDelta;
+
+			const Vector3 expectedPosition = Vector3(wind.x * timeDeltaSquared, PartiKillburnEngineConstants::GRAVITY * timeDeltaSquared, wind.z * timeDeltaSquared);
+			testParticle.UpdatePosition(timeDelta, wind);
+
+			Assert::AreEqual(expectedPosition, testParticle.currentPosition);
+		}
+
+		TEST_METHOD(UpdatePosition__NotModifiedByWind_CalculatesExpectedNewPositionViaVerletIntegration)
+		{
+			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, false));
+			const Vector3 wind = Vector3(10.0f, 10.0f, 10.0f);
+			const float timeDelta = 2.0f;
+			const float timeDeltaSquared = timeDelta * timeDelta;
+
+			const Vector3 expectedPosition = Vector3(0.0f, PartiKillburnEngineConstants::GRAVITY * timeDeltaSquared, 0.0f);
+			testParticle.UpdatePosition(timeDelta, wind);
+
+			Assert::AreEqual(expectedPosition, testParticle.currentPosition);
+		}
 	};
 }
 

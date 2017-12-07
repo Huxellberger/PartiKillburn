@@ -19,10 +19,10 @@ public:
 
 protected:
 
-	virtual void UpdateLifetimes() {}
+	virtual void UpdateLifetimes();
 	// if verlet integration comes through for us we won't need this (don't need velocities for positions)
 	virtual void UpdateVelocities() {}
-	virtual void UpdatePositions() {}
+	virtual void UpdatePositions();
 	virtual void SortAlphaBlending() {}
 	virtual void TransferTextureData() {}
 	virtual void RenderParticles();

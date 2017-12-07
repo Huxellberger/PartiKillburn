@@ -17,7 +17,6 @@ PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float i
 	PartiKillburnRandomGeneration::randomGenerator.seed((unsigned int) time(nullptr));
 }
 
-
 // ------------------------------------------------------------
 
 // Magnitude of said vector determines the strength.
@@ -40,10 +39,40 @@ void PartiKillburnEngine::Update()
 
 // ------------------------------------------------------------
 
+void PartiKillburnEngine::UpdateLifetimes()
+{
+	particleSystem.AddParticles(1);
+}
+
+// ------------------------------------------------------------
+
+void PartiKillburnEngine::UpdatePositions()
+{
+	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
+	{
+		particleSystem.particles[currentParticle].UpdatePosition(updateDelta, windDirection);
+	}
+}
+
+// ------------------------------------------------------------
+
 void PartiKillburnEngine::RenderParticles()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+	auto&& color = particleSystem.GetParticleColor();
+	glColor4f(color.r, color.g, color.b, color.a);
+	glMatrixMode(GL_MODELVIEW);
+
+	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
+	{
+		glLoadIdentity();
+		auto&& particle = particleSystem.particles[currentParticle];
+		auto&& position = particle.currentPosition;
+		glTranslatef(position.x, position.y, position.z);
+
+		glutSolidSphere(particle.GetSize(), 20, 20);
+		glFlush();
+	}
 
 	glutSwapBuffers();
 }

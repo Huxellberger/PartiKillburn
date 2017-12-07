@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Engine\PartiKillburnEngine.h" />
+    <ClInclude Include="Source\Public\Engine\PartiKillburnEngineConstants.h" />
     <ClInclude Include="Source\Public\Engine\RandomGeneration.h" />
     <ClInclude Include="Source\Public\Particle\Bounds.h" />
     <ClInclude Include="Source\Public\Particle\Particle.h" />

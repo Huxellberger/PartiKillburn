@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "PartiKillburnLib/Source/Public/Engine/PartiKillburnEngineConstants.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
 
 // ------------------------------------------------------------
@@ -38,6 +39,27 @@ public:
 	Particle();
 	explicit Particle(const ParticleParams& inParams);
 
+	inline void UpdatePosition(const float inDelta, const Vector3& inWind)
+	{
+		lifetime += inDelta;
+		if (!resting)
+		{
+			float timeDeltaSquared = inDelta * inDelta;
+
+			float accX = drift ? inWind.x : 0;
+			float newPositionX = (2 * currentPosition.x - priorPosition.x) + (accX * timeDeltaSquared);
+
+			float accy = PartiKillburnEngineConstants::GRAVITY;
+			float newPositionY = (2 * currentPosition.y - priorPosition.y) + (accy * timeDeltaSquared);
+
+			float accz = drift ? inWind.z : 0;
+			float newPositionZ = (2 * currentPosition.z - priorPosition.z) + (accz * timeDeltaSquared);
+
+			priorPosition = currentPosition;
+			currentPosition = Vector3(newPositionX, newPositionY, newPositionZ);
+		}
+	}
+
 	inline const bool CanDrift() const
 	{
 		return drift;
@@ -59,7 +81,9 @@ public:
 private:
 
 	Vector3 startPosition;
+	Vector3 priorPosition;
 	float size;
+	float lifetime;
 	bool drift;
 };
 
