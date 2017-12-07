@@ -11,7 +11,7 @@ class PartiKillburnEngine
 {
 public:
 
-	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDeltaSeconds);
+	PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void Initialise();
@@ -37,6 +37,8 @@ protected:
 
 	// verlet integration relies on a constant time delta
 	const float updateDeltaSeconds;
+
+	const float groundYPosition;
 };
 
 // ------------------------------------------------------------

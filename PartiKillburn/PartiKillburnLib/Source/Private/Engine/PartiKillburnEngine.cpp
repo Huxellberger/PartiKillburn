@@ -9,10 +9,11 @@
 
 // ------------------------------------------------------------
 
-PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDeltaSeconds)
+PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition)
 	: particleSystem(inSystem)
 	, windDirection()
 	, updateDeltaSeconds(inUpdateDeltaSeconds)
+	, groundYPosition(inGroundYPosition)
 {
 	PartiKillburnRandomGeneration::randomGenerator.seed((unsigned int) time(nullptr));
 }
@@ -68,7 +69,15 @@ void PartiKillburnEngine::UpdatePositions()
 {
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
-		particleSystem.particles[currentParticle].UpdatePosition(updateDeltaSeconds, windDirection);
+		if (!particleSystem.particles[currentParticle].resting)
+		{
+			particleSystem.particles[currentParticle].UpdatePosition(updateDeltaSeconds, windDirection);
+
+			if (particleSystem.particles[currentParticle].currentPosition.y <= groundYPosition)
+			{
+				particleSystem.particles[currentParticle].resting = true;
+			}
+		}
 	}
 }
 
@@ -81,34 +90,33 @@ void PartiKillburnEngine::RenderParticles()
 
 	auto&& color = particleSystem.GetParticleColor();
 
-	glColor4f(color.r, color.g, color.b, color.a * 0.2f);
-
-	// Trails
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
 		auto&& particle = particleSystem.particles[currentParticle];
 		auto&& currentPosition = particle.currentPosition;
-		auto&& startPosition = particle.GetStartPosition();
-		auto&& trailStartPosition = currentPosition - ((currentPosition - particle.GetStartPosition()).Scale(0.1f));
-		float particleOffset = particle.GetSize();
-		float halfOffset = particleOffset * 0.5f;
 
-		glBegin(GL_POLYGON);
-		glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
-		glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
-		glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
-		glEnd();
-	}
+		// Trails
+		glColor4f(color.r, color.g, color.b, color.a * 0.2f);
 
-	glColor4f(color.r, color.g, color.b, color.a);
+		if (!particleSystem.particles[currentParticle].resting)
+		{
+			auto&& startPosition = particle.GetStartPosition();
+			auto&& trailStartPosition = currentPosition - ((currentPosition - particle.GetStartPosition()).Scale(0.1f));
+			float particleOffset = particle.GetSize();
+			float halfOffset = particleOffset * 0.5f;
 
-	// Solid snow
-	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
-	{
+			glBegin(GL_POLYGON);
+			glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
+			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
+			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
+			glEnd();
+		}
+
+		// Solid Snow
+		glColor4f(color.r, color.g, color.b, color.a);
+
 		glPushMatrix();
-		auto&& particle = particleSystem.particles[currentParticle];
-		auto&& position = particle.currentPosition;
-		glTranslatef(position.x, position.y, position.z);
+		glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
 		glutSolidSphere(particle.GetSize(), 20, 20);
 		glPopMatrix();
 	}

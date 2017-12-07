@@ -8,6 +8,7 @@
 namespace PartiKillburnConstants
 {
 	static float UpdateSpeedSeconds = 0.003f;
+	static float GroundPosition = -15.0f;
 	static ParticleSystemCount DefaultParticleCount = 10000;
 	static Vector3 WindDirection = Vector3(10.0f, 0.0f, -2.0f);
 	static int WindowPositionX = 100;

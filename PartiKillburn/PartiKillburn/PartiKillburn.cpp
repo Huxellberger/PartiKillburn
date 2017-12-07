@@ -17,14 +17,13 @@ namespace PartiKillburn
 {
 	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return ParticleSystemParams(Bounds(Vector3(-30.0f, 0.0f, -20.0f), Vector3(30.0f, 0.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
+		return ParticleSystemParams(Bounds(Vector3(-30.0f, 5.0f, -20.0f), Vector3(30.0f, 5.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
-	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds);
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition);
 
 	void Update()
 	{
-		
 		auto&& startTime = std::chrono::high_resolution_clock::now();
 		Engine.Update();
 		auto&& endTime = std::chrono::high_resolution_clock::now();

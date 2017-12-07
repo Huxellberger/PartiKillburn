@@ -47,13 +47,13 @@ public:
 			float timeDeltaSquared = inDelta * inDelta;
 
 			float accX = drift ? inWind.x : 0;
-			float newPositionX = (2 * currentPosition.x - priorPosition.x) + (accX * timeDeltaSquared);
+			float newPositionX = (2 * currentPosition.x - priorPosition.x) + ((accX * 1.0f / size) * timeDeltaSquared);
 
-			float accy = PartiKillburnEngineConstants::GRAVITY;
-			float newPositionY = (2 * currentPosition.y - priorPosition.y) + (accy * timeDeltaSquared);
+			float accY = PartiKillburnEngineConstants::GRAVITY;
+			float newPositionY = (2 * currentPosition.y - priorPosition.y) + (accY * timeDeltaSquared);
 
-			float accz = drift ? inWind.z : 0;
-			float newPositionZ = (2 * currentPosition.z - priorPosition.z) + (accz * timeDeltaSquared);
+			float accZ = drift ? inWind.z : 0;
+			float newPositionZ = (2 * currentPosition.z - priorPosition.z) + ((accZ * 1.0f / size) * timeDeltaSquared);
 
 			priorPosition = currentPosition;
 			currentPosition = Vector3(newPositionX, newPositionY, newPositionZ);

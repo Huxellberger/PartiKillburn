@@ -48,22 +48,23 @@ namespace ParticleTestFixture
 			Assert::IsFalse(testParticle.CanDrift());
 		}
 
-		TEST_METHOD(UpdatePosition__WindModified_CalculatesExpectedNewPositionViaVerletIntegration)
+		TEST_METHOD(UpdatePosition__WindModified_CalculatesExpectedNewPositionViaVerletIntegrationAndScaledBySize)
 		{
-			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, true));
-			const Vector3 wind = Vector3(10.0f, 10.0f, 10.0f);
+			const float particleSize = 1.5f;
+			auto testParticle = Particle(ParticleParams(Vector3(), particleSize, true));
+			const Vector3 wind = Vector3(50.0f, 10.0f, 30.0f);
 			const float timeDelta = 2.0f;
 			const float timeDeltaSquared = timeDelta * timeDelta;
 
-			const Vector3 expectedPosition = Vector3(wind.x * timeDeltaSquared, PartiKillburnEngineConstants::GRAVITY * timeDeltaSquared, wind.z * timeDeltaSquared);
+			const Vector3 expectedPosition = Vector3((wind.x * 1.f / particleSize) * timeDeltaSquared, PartiKillburnEngineConstants::GRAVITY * timeDeltaSquared, (wind.z * 1.f / particleSize) * timeDeltaSquared);
 			testParticle.UpdatePosition(timeDelta, wind);
 
-			Assert::AreEqual(expectedPosition, testParticle.currentPosition);
+			Assert::IsTrue(VectorAssertionHelpers::AreVectorsNearlyEqual(expectedPosition, testParticle.currentPosition, 0.3f));
 		}
 
 		TEST_METHOD(UpdatePosition__NotModifiedByWind_CalculatesExpectedNewPositionViaVerletIntegration)
 		{
-			auto testParticle = Particle(ParticleParams(Vector3(), 0.0f, false));
+			auto testParticle = Particle(ParticleParams(Vector3(), 1.0f, false));
 			const Vector3 wind = Vector3(10.0f, 10.0f, 10.0f);
 			const float timeDelta = 2.0f;
 			const float timeDeltaSquared = timeDelta * timeDelta;
