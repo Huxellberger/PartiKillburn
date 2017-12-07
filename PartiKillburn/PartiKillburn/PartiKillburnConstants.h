@@ -6,7 +6,7 @@
 
 namespace PartiKillburnConstants
 {
-	static float UpdateSpeed = 10.0f;
+	static float UpdateSpeedSeconds = 0.003f;
 	static ParticleSystemCount DefaultParticleCount = 10000;
 	static int WindowPositionX = 100;
 	static int WindowPositionY = 100;

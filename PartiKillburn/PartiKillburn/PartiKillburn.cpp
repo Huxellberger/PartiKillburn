@@ -9,20 +9,34 @@
 #include <PartiKillburnLib/Source/Public/Particle/ParticleSystem.h>
 #include <PartiKillburnLib/Source/Public/Particle/Vector3.h>
 
+#include <chrono>
+#include <thread>
 #include <vector>
 
 namespace PartiKillburn
 {
 	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return ParticleSystemParams(Bounds(Vector3(0.0f, 10.0f, -10.0f), Vector3(10.0f, 10.0f, 10.0f)), ParticleColor(100.0f, 255.0f, 0.0f, 1.0f), 1.0f, 3.0f, 0.5f, PartiKillburnConstants::DefaultParticleCount);
+		return ParticleSystemParams(Bounds(Vector3(0.0f, 10.0f, -10.0f), Vector3(10.0f, 10.0f, 10.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 1.0f, 3.0f, 0.5f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
-	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeed);
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds);
 
 	void Update()
 	{
+		auto&& startTime = std::chrono::high_resolution_clock::now();
 		Engine.Update();
+		auto&& endTime = std::chrono::high_resolution_clock::now();
+		auto&& timespan = std::chrono::duration_cast<std::chrono::duration<double>>(startTime - endTime);
+		if (timespan.count() < PartiKillburnConstants::UpdateSpeedSeconds)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds((long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000)));
+		}
+	}
+
+	void Idle()
+	{
+		glutPostRedisplay();
 	}
 }
 
@@ -39,6 +53,7 @@ int main(int argc, char **argv)
 	glutCreateWindow("Christmas ALREADY?");
 
 	glutDisplayFunc(PartiKillburn::Update);
+	glutIdleFunc(PartiKillburn::Idle);
 	glutMainLoop();
 
 	return 0;

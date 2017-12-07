@@ -11,7 +11,7 @@ class PartiKillburnEngine
 {
 public:
 
-	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta);
+	PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDeltaSeconds);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void SetWindDirection(Vector3 inWindDirection);
@@ -32,7 +32,7 @@ protected:
 	Vector3 windDirection;
 
 	// verlet integration relies on a constant time delta
-	const float updateDelta;
+	const float updateDeltaSeconds;
 };
 
 // ------------------------------------------------------------

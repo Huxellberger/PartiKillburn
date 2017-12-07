@@ -9,10 +9,10 @@
 
 // ------------------------------------------------------------
 
-PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDelta)
+PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, float inUpdateDeltaSeconds)
 	: particleSystem(inSystem)
 	, windDirection()
-	, updateDelta(inUpdateDelta)
+	, updateDeltaSeconds(inUpdateDeltaSeconds)
 {
 	PartiKillburnRandomGeneration::randomGenerator.seed((unsigned int) time(nullptr));
 }
@@ -50,7 +50,7 @@ void PartiKillburnEngine::UpdatePositions()
 {
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
-		particleSystem.particles[currentParticle].UpdatePosition(updateDelta, windDirection);
+		particleSystem.particles[currentParticle].UpdatePosition(updateDeltaSeconds, windDirection);
 	}
 }
 
@@ -58,10 +58,12 @@ void PartiKillburnEngine::UpdatePositions()
 
 void PartiKillburnEngine::RenderParticles()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
 	auto&& color = particleSystem.GetParticleColor();
 	glColor4f(color.r, color.g, color.b, color.a);
-	glMatrixMode(GL_MODELVIEW);
 
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
