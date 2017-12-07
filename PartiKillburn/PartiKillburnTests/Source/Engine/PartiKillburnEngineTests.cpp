@@ -29,7 +29,7 @@ namespace PartiKillburnEngineTestFixture
 
 		TEST_METHOD(Created_SetsCorrectParticleSystem)
 		{
-			const auto expectedSystem = ParticleSystem(std::vector<ParticleParams>(), 12u);
+			const auto expectedSystem = ParticleSystem(ParticleSystemParams());
 
 			auto&& testEngine = std::unique_ptr<TestPartiKillburnEngine>(new TestPartiKillburnEngine(expectedSystem, 1.1f));;
 			

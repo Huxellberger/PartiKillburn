@@ -27,6 +27,9 @@
     <ClInclude Include="Source\Particle\VectorTestFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Particle\ParticleColorTestFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Particle\BoundsTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle\ParticleColorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

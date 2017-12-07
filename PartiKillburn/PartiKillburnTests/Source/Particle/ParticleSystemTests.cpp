@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "Source/Particle/ParticleColorTestFunctions.h"
 #include "Source/Particle/VectorTestFunctions.h"
 
 #include <Source/Public/Particle/Particle.h>
@@ -17,76 +18,58 @@ namespace ParticleSystemTestFixture
 	{
 	public:
 
-		static std::vector<ParticleParams> GetParams()
+		const Vector3 boundsLow = Vector3(-1.0f, 2.0f, -5.0f);
+		const Vector3 boundsHigh = Vector3(3.0f, 7.0f, 11.0f);
+		const ParticleColor expectedColor = ParticleColor(1.0f, 1.0f, 1.0f, 3.0f);
+		const float minSize = 1.1f;
+		const float maxSize = 11.0f;
+		const ParticleSystemCount maxCount = 11u;
+
+		const ParticleSystemParams GetParams() const
 		{
-			return std::vector<ParticleParams>
-			{ 
-				ParticleParams(Vector3(1.0f, 3.0f, 4.0f), 1.0f, true), 
-				ParticleParams(Vector3(2.0f, 5.0f, 2.0f), 3.0f, false)
-			};
+			return ParticleSystemParams(Bounds(boundsLow, boundsHigh), expectedColor, minSize, maxSize, 0.0f, maxCount);
 		}
 
 		TEST_METHOD(Created_NoParticles)
 		{
-			auto particleSystem = ParticleSystem(GetParams(), 100);
+			auto particleSystem = ParticleSystem(GetParams());
 
 			Assert::AreEqual(0u, particleSystem.GetCurrentActiveParticles());
 		}
 
-		TEST_METHOD(Update_AddsParticle)
+		TEST_METHOD(Created_CorrectColor)
 		{
-			auto particleSystem = ParticleSystem(GetParams(), 100);
-			particleSystem.Update();
+			auto particleSystem = ParticleSystem(GetParams());
 
-			Assert::AreEqual(1u, particleSystem.GetCurrentActiveParticles());
+			Assert::AreEqual(expectedColor, particleSystem.GetParticleColor());
 		}
 
-		TEST_METHOD(Update_ParticleCreatedOfCorrectType)
+		TEST_METHOD(AddParticles_AddsParticlesOfCount)
 		{
-			auto&& params = GetParams();
-			auto particleSystem = ParticleSystem(params, 100);
-			particleSystem.Update();
+			const ParticleSystemCount expectedNumber = maxCount - 3;
+			auto particleSystem = ParticleSystem(GetParams());
+			particleSystem.AddParticles(expectedNumber);
 
-			Assert::AreEqual(params[0].startPosition, particleSystem.particles[0].currentPosition);
+			Assert::AreEqual(expectedNumber, particleSystem.GetCurrentActiveParticles());
 		}
 
-		TEST_METHOD(Update_CreatesParticlesUntilSizeExceeded)
+		TEST_METHOD(AddParticles_ParticleCreatedOfCorrectType)
 		{
-			const ParticleSystemCount maxCount = 10;
-			auto particleSystem = ParticleSystem(GetParams(), maxCount);
+			auto particleSystem = ParticleSystem(GetParams());
+			particleSystem.AddParticles(1);
 
-			for (unsigned i = 0u; i <= maxCount + 1; ++i)
-			{
-				particleSystem.Update();
-			}
+			Assert::IsTrue(particleSystem.particles[0].currentPosition.x <= boundsHigh.x && particleSystem.particles[0].currentPosition.x >= boundsLow.x);
+			Assert::IsTrue(particleSystem.particles[0].currentPosition.y <= boundsHigh.y && particleSystem.particles[0].currentPosition.y >= boundsLow.y);
+			Assert::IsTrue(particleSystem.particles[0].currentPosition.z <= boundsHigh.z && particleSystem.particles[0].currentPosition.z >= boundsLow.z);
+		}
+
+		TEST_METHOD(AddParticles_CreatesParticlesUntilSizeExceeded)
+		{
+			auto particleSystem = ParticleSystem(GetParams());
+
+			particleSystem.AddParticles(maxCount + 100);
 
 			Assert::AreEqual(maxCount, particleSystem.GetCurrentActiveParticles());
-		}
-
-		TEST_METHOD(UpdateMultiples_CreatesParticlesOfCorrectType)
-		{
-			auto&& params = GetParams();
-			auto particleSystem = ParticleSystem(params, 100);
-
-			particleSystem.Update();
-			particleSystem.Update();
-
-			Assert::AreEqual(params[1].startPosition, particleSystem.particles[1].currentPosition);
-		}
-
-		TEST_METHOD(UpdateMultiples_LoopsTypeBackAround)
-		{
-			auto&& params = GetParams();
-			auto particleSystem = ParticleSystem(params, 100);
-
-			for each(auto&& param in params)
-			{
-				particleSystem.Update();
-			}
-
-			particleSystem.Update();
-
-			Assert::AreEqual(params[0].startPosition, particleSystem.particles[params.size()].currentPosition);
 		}
 	};
 }

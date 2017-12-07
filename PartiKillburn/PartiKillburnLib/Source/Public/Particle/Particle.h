@@ -48,11 +48,17 @@ public:
 		return size;
 	}
 
+	inline const Vector3 GetStartPosition() const
+	{
+		return startPosition;
+	}
+
 	Vector3 currentPosition;
 	bool resting;
 
 private:
 
+	Vector3 startPosition;
 	float size;
 	bool drift;
 };

@@ -13,12 +13,12 @@
 
 namespace PartiKillburn
 {
-	static std::vector<ParticleParams> GetDefaultParticleParams()
+	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return std::vector<ParticleParams>{ ParticleParams(Vector3(1.0f, 2.0f, 3.0f), 1.0f, false) };
+		return ParticleSystemParams(Bounds(Vector3(0.0f, 10.0f, -10.0f), Vector3(10.0f, 10.0f, 10.0f)), ParticleColor(100.0f, 255.0f, 0.0f, 1.0f), 1.0f, 3.0f, 0.5f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
-	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams(), PartiKillburnConstants::DefaultParticleCount), PartiKillburnConstants::UpdateSpeed);
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeed);
 
 	void Update()
 	{

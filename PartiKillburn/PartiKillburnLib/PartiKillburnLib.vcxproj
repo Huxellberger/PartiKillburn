@@ -141,6 +141,7 @@
     <ClInclude Include="Source\Public\Engine\RandomGeneration.h" />
     <ClInclude Include="Source\Public\Particle\Bounds.h" />
     <ClInclude Include="Source\Public\Particle\Particle.h" />
+    <ClInclude Include="Source\Public\Particle\ParticleColor.h" />
     <ClInclude Include="Source\Public\Particle\ParticleSystem.h" />
     <ClInclude Include="Source\Public\Particle\Vector3.h" />
     <ClInclude Include="stdafx.h" />

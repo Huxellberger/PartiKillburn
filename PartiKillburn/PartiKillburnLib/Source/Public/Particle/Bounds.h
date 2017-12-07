@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "PartiKillburnLib/Source/Public/Engine/PartiKillburnEngine.h"
 #include "PartiKillburnLib/Source/Public/Engine/RandomGeneration.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
 
@@ -13,6 +12,11 @@
 struct Bounds
 {
 public:
+
+	Bounds()
+		: Bounds(Vector3(), Vector3())
+	{
+	}
 
 	Bounds(const Vector3& inStartExtent, const Vector3& inEndExtent)
 		: startExtent(inStartExtent)
@@ -25,7 +29,12 @@ public:
 
 	Vector3 GetRandomPoint() const
 	{
-		return Vector3(realXDist(PartiKillburnEngine::randomGenerator), realYDist(PartiKillburnEngine::randomGenerator), realZDist(PartiKillburnEngine::randomGenerator));
+		return Vector3
+		(
+			realXDist(PartiKillburnRandomGeneration::randomGenerator), 
+			realYDist(PartiKillburnRandomGeneration::randomGenerator), 
+			realZDist(PartiKillburnRandomGeneration::randomGenerator)
+		);
 	}
 
 private:

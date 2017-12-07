@@ -21,6 +21,7 @@ namespace ParticleTestFixture
 			const Vector3 expectedVector = Vector3(3.5f, 2.1f, 1.0f);
 			auto testParticle = Particle(ParticleParams(expectedVector, 1.0f, false));
 
+			Assert::AreEqual(expectedVector, testParticle.GetStartPosition());
 			Assert::AreEqual(expectedVector, testParticle.currentPosition);
 			Assert::IsFalse(testParticle.resting);
 		}

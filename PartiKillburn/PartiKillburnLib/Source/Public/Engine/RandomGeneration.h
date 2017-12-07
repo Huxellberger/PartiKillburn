@@ -5,3 +5,8 @@
 #include <random>
 
 using RandomGeneration = std::mt19937;
+
+namespace PartiKillburnRandomGeneration
+{
+	static RandomGeneration randomGenerator;
+}

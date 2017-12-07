@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\TestPartiKillburnEngine.h" />
+    <ClInclude Include="Source\Particle\ParticleColorTestFunctions.h" />
     <ClInclude Include="Source\Particle\VectorTestFunctions.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Engine\PartiKillburnEngineTests.cpp" />
     <ClCompile Include="Source\Particle\BoundsTests.cpp" />
+    <ClCompile Include="Source\Particle\ParticleColorTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleSystemTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleTests.cpp" />
     <ClCompile Include="Source\Particle\Vector3Tests.cpp" />

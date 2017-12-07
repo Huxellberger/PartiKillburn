@@ -1,43 +1,39 @@
 // Jake Huxell (C) 2017
 
 #include "stdafx.h"
-#include "Source/Public/Particle/ParticleSystem.h"
+#include "PartiKillburnLib/Source/Public/Particle/ParticleSystem.h"
 
-#include <CRTDBG.H>
+#include "PartiKillburnLib/Source/Public/Engine/RandomGeneration.h"
 
 // ------------------------------------------------------------
 
 ParticleSystem::ParticleSystem()
-	: ParticleSystem(std::vector<ParticleParams>(), 0u)
+	: ParticleSystem(ParticleSystemParams())
 {
 }
 
 // ------------------------------------------------------------
 
-ParticleSystem::ParticleSystem(const std::vector<ParticleParams>& inParamTypes, ParticleSystemCount inCount)
-	: particles(new Particle[inCount])
-	, paramTypes(inParamTypes)
-	, maxParticles(inCount)
-	, currentType(0)
+ParticleSystem::ParticleSystem(const ParticleSystemParams& inParams)
+	: particles(new Particle[inParams.maxParticles])
+	, distSize(inParams.minSize, inParams.maxSize)
+	, distDrift(0.0f, 1.0f)
+	, params(inParams)
 	, currentActiveParticles(0u)
 {
-	_ASSERT(paramTypes.size() != 0);
 }
 
 // ------------------------------------------------------------
 
-void ParticleSystem::Update()
+void ParticleSystem::AddParticles(ParticleSystemCount numberToAdd)
 {
-	if (currentActiveParticles < maxParticles)
+	for (ParticleSystemCount currentAddition = 0; currentAddition < numberToAdd; ++currentAddition)
 	{
-		if (currentType >= paramTypes.size())
+		if (currentActiveParticles < params.maxParticles)
 		{
-			currentType = 0;
+			GenerateParticle();
+			currentActiveParticles++;
 		}
-
-		particles[currentActiveParticles] = Particle(paramTypes[currentType]);
-		currentActiveParticles++;
-		currentType++;
 	}
 }
 
@@ -46,6 +42,22 @@ void ParticleSystem::Update()
 const ParticleSystemCount ParticleSystem::GetCurrentActiveParticles() const
 {
 	return currentActiveParticles;
+}
+
+// ------------------------------------------------------------
+
+const ParticleColor ParticleSystem::GetParticleColor() const
+{
+	return params.color;
+}
+
+// ------------------------------------------------------------
+
+void ParticleSystem::GenerateParticle()
+{
+	const bool drifting = distDrift(PartiKillburnRandomGeneration::randomGenerator) < params.driftPercentage;
+
+	particles[currentActiveParticles] = Particle(ParticleParams(params.bounds.GetRandomPoint(), distSize(PartiKillburnRandomGeneration::randomGenerator), drifting));
 }
 
 // ------------------------------------------------------------

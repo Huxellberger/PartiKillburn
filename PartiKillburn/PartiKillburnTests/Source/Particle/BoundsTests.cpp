@@ -23,7 +23,7 @@ namespace BoundsTestFixture
 			const Vector3 expectedBottomVector = Vector3(-1.5f, -3.1f, -1.0f);
 			const Vector3 expectedTopVector = Vector3(3.5f, 2.1f, 1.0f);
 
-			PartiKillburnEngine::randomGenerator.seed(2u);
+			PartiKillburnRandomGeneration::randomGenerator.seed(2u);
 			auto testBounds = Bounds(expectedBottomVector, expectedTopVector);
 
 			auto&& generatedPoint = testBounds.GetRandomPoint();
