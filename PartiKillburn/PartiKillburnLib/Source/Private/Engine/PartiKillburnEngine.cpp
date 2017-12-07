@@ -80,28 +80,43 @@ void PartiKillburnEngine::RenderParticles()
 	glDisable(GL_LIGHTING);
 
 	auto&& color = particleSystem.GetParticleColor();
+
+	glColor4f(color.r, color.g, color.b, color.a * 0.2f);
+
+	// Trails
+	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
+	{
+		auto&& particle = particleSystem.particles[currentParticle];
+		auto&& currentPosition = particle.currentPosition;
+		auto&& startPosition = particle.GetStartPosition();
+		auto&& trailStartPosition = currentPosition - ((currentPosition - particle.GetStartPosition()).Scale(0.1f));
+		float particleOffset = particle.GetSize();
+		float halfOffset = particleOffset * 0.5f;
+
+		glBegin(GL_POLYGON);
+		glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
+		glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
+		glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
+		glEnd();
+	}
+
 	glColor4f(color.r, color.g, color.b, color.a);
 
+	// Solid snow
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
 		glPushMatrix();
 		auto&& particle = particleSystem.particles[currentParticle];
 		auto&& position = particle.currentPosition;
 		glTranslatef(position.x, position.y, position.z);
-
-		/*
-		glBegin(GL_POINTS);
-		glVertex3f(position.x, position.y, position.z);
-		glEnd();
-		*/
-
 		glutSolidSphere(particle.GetSize(), 20, 20);
 		glPopMatrix();
 	}
 
-
 	glutSwapBuffers();
 }
+
+// ------------------------------------------------------------
 
 void PartiKillburnEngine::SetView()
 {
@@ -109,7 +124,7 @@ void PartiKillburnEngine::SetView()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(0.0, 0, 30, 0.0, -10.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, 0, 40, 0.0, -10.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 // ------------------------------------------------------------

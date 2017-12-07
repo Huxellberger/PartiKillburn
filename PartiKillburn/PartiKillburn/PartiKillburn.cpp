@@ -17,7 +17,7 @@ namespace PartiKillburn
 {
 	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return ParticleSystemParams(Bounds(Vector3(-10.0f, 0.0f, -20.0f), Vector3(15.0f, 0.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 2.0f, 3.0f, 0.0f, PartiKillburnConstants::DefaultParticleCount);
+		return ParticleSystemParams(Bounds(Vector3(-30.0f, 0.0f, -20.0f), Vector3(30.0f, 0.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
 	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds);
@@ -51,6 +51,8 @@ int main(int argc, char **argv)
 {
 	// Remove console window
 	FreeConsole();
+
+	PartiKillburn::Engine.SetWindDirection(PartiKillburnConstants::WindDirection);
 
 	// init GLUT and create Window
 	glutInit(&argc, argv);

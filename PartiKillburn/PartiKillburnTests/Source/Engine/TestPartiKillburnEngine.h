@@ -28,7 +28,7 @@ public:
 
 	const float GetTimeDelta() const
 	{
-		return updateDelta;
+		return updateDeltaSeconds;
 	}
 
 	const Vector3 GetWindDirection() const

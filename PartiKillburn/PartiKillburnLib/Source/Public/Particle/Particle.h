@@ -75,6 +75,11 @@ public:
 		return startPosition;
 	}
 
+	inline const Vector3 GetPriorPosition() const
+	{
+		return priorPosition;
+	}
+
 	Vector3 currentPosition;
 	bool resting;
 
