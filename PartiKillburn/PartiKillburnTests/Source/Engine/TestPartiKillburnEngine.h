@@ -15,17 +15,12 @@ class TestPartiKillburnEngine
 {
 public:
 
-	TestPartiKillburnEngine(const ParticleSystem& inSystem, const float inTimeDelta)
-		: PartiKillburnEngine(inSystem, inTimeDelta, 1.0f, std::vector <CollidableInterface*>() )
+	TestPartiKillburnEngine(const ParticleSystem& inSystem)
+		: PartiKillburnEngine(inSystem, 1.0f, std::vector <CollidableInterface*>() )
 		, updateLifetimesCalled(false)
 		, updatePositionsCalled(false)
 		, renderParticlesCalled(false)
 	{
-	}
-
-	const float GetTimeDelta() const
-	{
-		return updateDeltaSeconds;
 	}
 
 	const Vector3 GetWindDirection() const
@@ -45,7 +40,7 @@ public:
 private:
 
 	virtual void UpdateLifetimes() override final { updateLifetimesCalled = true; }
-	virtual void UpdatePositions() override final { updatePositionsCalled = true; }
+	virtual void UpdatePositions(const float inDelta) override final { updatePositionsCalled = true; }
 	virtual void RenderParticles() override final { renderParticlesCalled = true; }
 };
 

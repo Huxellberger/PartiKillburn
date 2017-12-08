@@ -30,7 +30,7 @@ namespace PartiKillburn
 		};
 	}
 
-	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition, GetCollidables());
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::GroundPosition, GetCollidables());
 	static float StartingUpdateSpeed;
 	static int menuId;
 
@@ -49,7 +49,7 @@ namespace PartiKillburn
 	void Update()
 	{
 		auto&& startTime = std::chrono::high_resolution_clock::now();
-		Engine.Update();
+		Engine.Update(PartiKillburnConstants::UpdateSpeedSeconds);
 		auto&& endTime = std::chrono::high_resolution_clock::now();
 		auto&& timespan = std::chrono::duration_cast<std::chrono::duration<double>>(endTime - startTime);
 		if (timespan.count() < PartiKillburnConstants::UpdateSpeedSeconds)

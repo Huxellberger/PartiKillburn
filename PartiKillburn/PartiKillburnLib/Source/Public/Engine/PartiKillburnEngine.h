@@ -17,20 +17,20 @@ public:
 
 	const static float MOVE_SPEED;
 
-	PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables);
+	PartiKillburnEngine(const ParticleSystem& inSystem, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void Initialise();
 	void OnMenuSelected(int selection);
 	void OnKeyboardSelection(unsigned char key, int x, int y);
 	void SetWindDirection(Vector3 inWindDirection);
-	void Update();
+	void Update(const float inDelta);
 	void Resize(int w, int h);
 
 protected:
 
 	virtual void UpdateLifetimes();
-	virtual void UpdatePositions();
+	virtual void UpdatePositions(const float inDelta);
 	virtual void RenderParticles();
 
 	void CreateMenu();
@@ -45,9 +45,6 @@ protected:
 	Vector3 windDirection;
 
 	std::uniform_real_distribution<float> windDist;
-
-	// verlet integration relies on a constant time delta
-	const float updateDeltaSeconds;
 
 	const float groundYPosition;
 };

@@ -113,7 +113,12 @@ public:
 		if (!resting)
 		{
 			float currentAlpha = 0.8f;
-			auto&& trailStartPosition = currentPosition - ((currentPosition - priorPosition).Scale(15.0f * size));
+			auto&& trailStartPosition = currentPosition - ((currentPosition - priorPosition).Scale(5.0f * size));
+			if (trailStartPosition.y > startPosition.y)
+			{
+				trailStartPosition = startPosition;
+			}
+
 			auto&& trailEndPosition = currentPosition;
 			const float halfOffset = size * 0.5f;
 

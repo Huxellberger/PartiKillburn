@@ -13,14 +13,13 @@ const float PartiKillburnEngine::MOVE_SPEED = 0.3f;
 
 // ------------------------------------------------------------
 
-PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables)
+PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables)
 	: collidables(inCollidables)
 	, particleSystem(inSystem)
 	, sun(ParticleParams(Vector3(-75.0f, 15.0f, -75.0f), 10.0f, false))
 	, currentPosition(Vector3(0.0, 10.0f, 40.0f))
 	, windDirection()
 	, windDist(-14.0f, 14.0f)
-	, updateDeltaSeconds(inUpdateDeltaSeconds)
 	, groundYPosition(inGroundYPosition)
 {
 	PartiKillburnRandomGeneration::randomGenerator.seed((unsigned int) time(nullptr));
@@ -45,10 +44,10 @@ void PartiKillburnEngine::SetWindDirection(Vector3 inWindDirection)
 
 // ------------------------------------------------------------
 
-void PartiKillburnEngine::Update()
+void PartiKillburnEngine::Update(const float inDelta)
 {
 	UpdateLifetimes();
-	UpdatePositions();
+	UpdatePositions(inDelta);
 	RenderParticles();
 }
 
@@ -72,13 +71,13 @@ void PartiKillburnEngine::UpdateLifetimes()
 
 // ------------------------------------------------------------
 
-void PartiKillburnEngine::UpdatePositions()
+void PartiKillburnEngine::UpdatePositions(const float inDelta)
 {
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
 		if (!particleSystem.particles[currentParticle].resting)
 		{
-			particleSystem.particles[currentParticle].UpdatePosition(updateDeltaSeconds, windDirection);
+			particleSystem.particles[currentParticle].UpdatePosition(inDelta, windDirection);
 
 			if (particleSystem.particles[currentParticle].currentPosition.y <= groundYPosition)
 			{
