@@ -4,6 +4,7 @@
 #include "PartiKillburnConstants.h"
 
 #include <Dependencies/freeglut/freeglut.h>
+#include <PartiKillburnLib/Source/Public/Collidable/CollidableBox.h>
 #include <PartiKillburnLib/Source/Public/Engine/PartiKillburnEngine.h>
 #include <PartiKillburnLib/Source/Public/Particle/Particle.h>
 #include <PartiKillburnLib/Source/Public/Particle/ParticleSystem.h>
@@ -20,7 +21,12 @@ namespace PartiKillburn
 		return ParticleSystemParams(Bounds(Vector3(-30.0f, 5.0f, -20.0f), Vector3(30.0f, 5.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
-	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition);
+	static std::vector<CollidableInterface*> GetCollidables()
+	{
+		return std::vector<CollidableInterface*>{new CollidableBox(Bounds(Vector3(0.0f, PartiKillburnConstants::GroundPosition, 0.0f), Vector3(10.0f, -10.0f, 5.0f)))};
+	}
+
+	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition, GetCollidables());
 
 	void Update()
 	{

@@ -16,7 +16,7 @@ class TestPartiKillburnEngine
 public:
 
 	TestPartiKillburnEngine(const ParticleSystem& inSystem, const float inTimeDelta)
-		: PartiKillburnEngine(inSystem, inTimeDelta, 1.0f)
+		: PartiKillburnEngine(inSystem, inTimeDelta, 1.0f, std::vector <CollidableInterface>() )
 		, updateLifetimesCalled(false)
 		, updateVelocitiesCalled(false)
 		, updatePositionsCalled(false)

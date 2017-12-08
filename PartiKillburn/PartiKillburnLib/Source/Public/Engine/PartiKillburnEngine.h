@@ -2,8 +2,11 @@
 
 #pragma once
 
+#include "PartiKillburnLib/Source/Public/Collidable/CollidableInterface.h"
 #include "PartiKillburnLib/Source/Public/Particle/ParticleSystem.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
+
+#include <vector>
 
 // ------------------------------------------------------------
 
@@ -11,7 +14,7 @@ class PartiKillburnEngine
 {
 public:
 
-	PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition);
+	PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void Initialise();
@@ -30,6 +33,8 @@ protected:
 	virtual void RenderParticles();
 
 	void SetView();
+
+	std::vector<CollidableInterface*> collidables;
 
 	ParticleSystem particleSystem;
 

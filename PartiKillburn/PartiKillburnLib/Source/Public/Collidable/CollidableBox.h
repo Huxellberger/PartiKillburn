@@ -36,7 +36,7 @@ public:
 		glVertex3f(startPoint.x, startPoint.y, startPoint.z);
 		glVertex3f(endPoint.x, startPoint.y, startPoint.z);
 		glVertex3f(startPoint.x, endPoint.y, startPoint.z);
-		glVertex3f(endPoint.z, endPoint.y, startPoint.z);
+		glVertex3f(endPoint.x, endPoint.y, startPoint.z);
 		glVertex3f(startPoint.x, startPoint.y, endPoint.z);
 		glVertex3f(endPoint.x, startPoint.y, endPoint.z);
 		glVertex3f(startPoint.x, endPoint.y, endPoint.z);

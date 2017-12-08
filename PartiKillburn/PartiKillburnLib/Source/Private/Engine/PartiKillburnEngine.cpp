@@ -9,8 +9,9 @@
 
 // ------------------------------------------------------------
 
-PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition)
-	: particleSystem(inSystem)
+PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables)
+	: collidables(inCollidables)
+	, particleSystem(inSystem)
 	, windDirection()
 	, updateDeltaSeconds(inUpdateDeltaSeconds)
 	, groundYPosition(inGroundYPosition)
@@ -77,6 +78,14 @@ void PartiKillburnEngine::UpdatePositions()
 			{
 				particleSystem.particles[currentParticle].resting = true;
 			}
+
+			for each (auto&& collidable in collidables)
+			{
+				if (collidable->HasCollided(particleSystem.particles[currentParticle].currentPosition))
+				{
+					particleSystem.particles[currentParticle].resting = true;
+				}
+			}
 		}
 	}
 }
@@ -89,12 +98,30 @@ void PartiKillburnEngine::RenderParticles()
 	glDisable(GL_LIGHTING);
 
 	auto&& color = particleSystem.GetParticleColor();
+	auto&& collidableColor = ParticleColor(1.0f, 0.0f, 0.0f, 1.0f);
+	auto&& groundColor = ParticleColor(0.0f, 1.0f, 0.0f, 1.0f);
 
 	// Particles
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
 		particleSystem.particles[currentParticle].DrawCollidable(color);
 	}
+
+	// Collidables
+	for (std::vector<CollidableInterface*>::iterator it = collidables.begin(); it != collidables.end(); ++it)
+	{
+		(*it)->DrawCollidable(collidableColor);
+	}
+
+	// Ground
+	glColor4f(groundColor.r, groundColor.g, groundColor.b, groundColor.a);
+
+	glBegin(GL_POLYGON);
+	glVertex3f(-1000.0f, groundYPosition, -1000.0f);
+	glVertex3f(1000.0f, groundYPosition, -1000.0f);
+	glVertex3f(-1000.0f, groundYPosition, 1000.0f);
+	glVertex3f(1000.0f, groundYPosition, 1000.0f);
+	glEnd();
 
 	glutSwapBuffers();
 }
