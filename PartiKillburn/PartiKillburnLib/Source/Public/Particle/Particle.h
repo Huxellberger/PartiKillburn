@@ -4,9 +4,12 @@
 
 #include "PartiKillburnLib/Source/Public/Collidable/CollidableInterface.h"
 #include "PartiKillburnLib/Source/Public/Engine/PartiKillburnEngineConstants.h"
+#include "PartiKillburnLib/Source/Public/Engine/RandomGeneration.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
 
 #include <Dependencies/freeglut/freeglut.h>
+
+#include <random>
 
 // ------------------------------------------------------------
 
@@ -105,23 +108,40 @@ public:
 		if (!resting)
 		{
 			// Trail transparency
-			glColor4f(inColor.r, inColor.g, inColor.b, inColor.a * 0.2f);
+			glColor4f(inColor.r * 0.9f, inColor.g * 0.9f, inColor.b * 0.9f, inColor.a * 0.2f);
 
-			auto&& trailStartPosition = currentPosition - ((currentPosition - startPosition).Scale(0.1f));
+			auto&& trailStartPosition = currentPosition - ((currentPosition - priorPosition).Scale(10.0f));
 
-			const float particleOffset = size;
-			const float halfOffset = particleOffset * 0.5f;
+			const float halfOffset = size * 0.5f;
 
-			glBegin(GL_POLYGON);
-			glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
-			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
-			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
+			glBegin(GL_LINES);
+			glVertex3f(trailStartPosition.x + halfOffset, trailStartPosition.y, trailStartPosition.z + halfOffset);
+			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + size, currentPosition.z + halfOffset);
+			glVertex3f(trailStartPosition.x - halfOffset, trailStartPosition.y, trailStartPosition.z - halfOffset);
+			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + size, currentPosition.z - halfOffset);
 			glEnd();
 		}
 		// splat
 		else
 		{
-			// Splat code
+			glColor4f(inColor.r, inColor.g, inColor.b, inColor.a);
+
+			// Stop possible Z fighting
+			float collisionHeight = currentPosition.y + 0.1f;
+
+			glBegin(GL_POLYGON);
+			glVertex3f(currentPosition.x + splatXOffset, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x - splatXOffset, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z + splatZOffset);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z - splatZOffset);
+			glVertex3f(currentPosition.x, collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x + splatZOffset, collisionHeight, currentPosition.z + splatZOffset);
+			glVertex3f(currentPosition.x , collisionHeight, currentPosition.z);
+			glVertex3f(currentPosition.x - splatZOffset, collisionHeight, currentPosition.z - splatZOffset);
+			glEnd();
 		}
 
 		// normal particle
@@ -141,10 +161,15 @@ public:
 
 private:
 
+	std::uniform_real_distribution<float> splatDeviation;
+
 	Vector3 startPosition;
 	Vector3 priorPosition;
 	float size;
 	float lifetime;
+
+	float splatXOffset;
+	float splatZOffset;
 	bool drift;
 };
 

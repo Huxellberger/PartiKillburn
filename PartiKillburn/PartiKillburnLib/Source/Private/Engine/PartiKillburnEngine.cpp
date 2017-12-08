@@ -9,9 +9,15 @@
 
 // ------------------------------------------------------------
 
+const float PartiKillburnEngine::MOVE_SPEED = 0.3f;
+
+// ------------------------------------------------------------
+
 PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables)
 	: collidables(inCollidables)
 	, particleSystem(inSystem)
+	, sun(ParticleParams(Vector3(1000.0f, 20.0f, 1000.0f), 100.0f, false))
+	, currentPosition(Vector3(0.0, 10.0f, 40.0f))
 	, windDirection()
 	, updateDeltaSeconds(inUpdateDeltaSeconds)
 	, groundYPosition(inGroundYPosition)
@@ -23,6 +29,8 @@ PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const f
 
 void PartiKillburnEngine::Initialise()
 {
+	CreateMenu();
+
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
@@ -39,10 +47,7 @@ void PartiKillburnEngine::SetWindDirection(Vector3 inWindDirection)
 void PartiKillburnEngine::Update()
 {
 	UpdateLifetimes();
-	UpdateVelocities();
 	UpdatePositions();
-	SortAlphaBlending();
-	TransferTextureData();
 	RenderParticles();
 }
 
@@ -100,12 +105,20 @@ void PartiKillburnEngine::RenderParticles()
 	auto&& color = particleSystem.GetParticleColor();
 	auto&& collidableColor = ParticleColor(1.0f, 0.0f, 0.0f, 1.0f);
 	auto&& groundColor = ParticleColor(0.0f, 1.0f, 0.0f, 1.0f);
+	auto&& sunColor = ParticleColor(1.0f, 0.5f, 0.0f, 1.0f);
 
-	// Particles
-	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
-	{
-		particleSystem.particles[currentParticle].DrawCollidable(color);
-	}
+	// Sun
+	sun.DrawCollidable(sunColor);
+
+	// Ground
+	glColor4f(groundColor.r, groundColor.g, groundColor.b, groundColor.a);
+
+	glBegin(GL_POLYGON);
+	glVertex3f(-100.0f, groundYPosition, -100.0f);
+	glVertex3f(100.0f, groundYPosition, -30.0f);
+	glVertex3f(100.0f, groundYPosition, 100.0f);
+	glVertex3f(-100.0f, groundYPosition, 100.0f);
+	glEnd();
 
 	// Collidables
 	for (std::vector<CollidableInterface*>::iterator it = collidables.begin(); it != collidables.end(); ++it)
@@ -113,15 +126,11 @@ void PartiKillburnEngine::RenderParticles()
 		(*it)->DrawCollidable(collidableColor);
 	}
 
-	// Ground
-	glColor4f(groundColor.r, groundColor.g, groundColor.b, groundColor.a);
-
-	glBegin(GL_POLYGON);
-	glVertex3f(-1000.0f, groundYPosition, -1000.0f);
-	glVertex3f(1000.0f, groundYPosition, -1000.0f);
-	glVertex3f(-1000.0f, groundYPosition, 1000.0f);
-	glVertex3f(1000.0f, groundYPosition, 1000.0f);
-	glEnd();
+	// Particles
+	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
+	{
+		particleSystem.particles[currentParticle].DrawCollidable(color);
+	}
 
 	glutSwapBuffers();
 }
@@ -134,7 +143,80 @@ void PartiKillburnEngine::SetView()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(0.0, 0, 40, 0.0, -10.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(currentPosition.x, currentPosition.y, currentPosition.z, 0.0, -10.0, 0.0, 0.0, 1.0, 0.0);
+}
+
+// ------------------------------------------------------------
+
+void PartiKillburnEngine::CreateMenu()
+{
+	glutAddMenuEntry("Reset", 1);
+	glutAddMenuEntry("Increase Particles", 2);
+	glutAddMenuEntry("Decrease Particles", 3);
+	glutAddMenuEntry("Exit", 4);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
+// ------------------------------------------------------------
+
+void PartiKillburnEngine::OnMenuSelected(int selection)
+{
+	switch (selection)
+	{
+		case 1:
+			particleSystem.Reset();
+			break;
+		case 2:
+			particleSystem.IncreaseCapacity();
+			break;
+		case 3:
+			particleSystem.DecreaseCapacity();
+			break;
+		case 4:
+			exit(0);
+			break;
+		default:
+			break;
+	}
+}
+
+// ------------------------------------------------------------
+
+void PartiKillburnEngine::OnKeyboardSelection(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+	// Escape
+	case 27:
+		exit(0);
+		break;
+	// w
+	case 119:
+		currentPosition.x += MOVE_SPEED;
+		break;
+	// a
+	case 97:
+		currentPosition.z -= MOVE_SPEED;
+		break;
+	// s
+	case 115:
+		currentPosition.x -= MOVE_SPEED;
+		break;
+	// d
+	case 100:
+		currentPosition.z += MOVE_SPEED;
+		break;
+	// x
+	case 120:
+		currentPosition.y += MOVE_SPEED;
+		break;
+	// z
+	case 122:
+		currentPosition.y -= MOVE_SPEED;
+		break;
+	default:
+		break;
+	}
 }
 
 // ------------------------------------------------------------

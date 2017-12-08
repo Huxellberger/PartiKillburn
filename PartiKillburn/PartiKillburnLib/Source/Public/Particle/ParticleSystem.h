@@ -8,6 +8,7 @@
 
 #include <basetsd.h>
 #include <random>
+#include <vector>
 
 // ------------------------------------------------------------
 
@@ -61,11 +62,15 @@ public:
 
 	virtual ~ParticleSystem();
 
+	void Reset();
 	void AddParticles(ParticleSystemCount numberToAdd);
+	void IncreaseCapacity();
+	void DecreaseCapacity();
 	const ParticleSystemCount GetCurrentActiveParticles() const;
 	const ParticleColor GetParticleColor() const;
+	const ParticleSystemCount GetCapacity() const;
 
-	Particle* particles;
+	std::vector<Particle> particles;
 
 private:
 

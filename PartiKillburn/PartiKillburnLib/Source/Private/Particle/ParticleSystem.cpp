@@ -15,19 +15,47 @@ ParticleSystem::ParticleSystem()
 // ------------------------------------------------------------
 
 ParticleSystem::ParticleSystem(const ParticleSystemParams& inParams)
-	: particles(new Particle[inParams.maxParticles])
+	: particles()
 	, distSize(inParams.minSize, inParams.maxSize)
 	, distDrift(0.0f, 1.0f)
 	, params(inParams)
 	, currentActiveParticles(0u)
 {
+	particles.reserve(params.maxParticles);
 }
 
 // ------------------------------------------------------------
 
 ParticleSystem::~ParticleSystem()
 {
-	// delete[params.maxParticles] particles;
+	particles.empty();
+}
+
+// ------------------------------------------------------------
+
+void ParticleSystem::Reset()
+{
+	currentActiveParticles = 0;
+}
+
+// ------------------------------------------------------------
+
+void ParticleSystem::IncreaseCapacity()
+{
+	params.maxParticles *= 10;
+	particles.reserve(params.maxParticles);
+}
+
+// ------------------------------------------------------------
+
+void ParticleSystem::DecreaseCapacity()
+{
+	params.maxParticles *= 0.5;
+
+	if (currentActiveParticles > params.maxParticles)
+	{
+		currentActiveParticles = params.maxParticles;
+	}
 }
 
 // ------------------------------------------------------------
@@ -60,11 +88,18 @@ const ParticleColor ParticleSystem::GetParticleColor() const
 
 // ------------------------------------------------------------
 
+const ParticleSystemCount ParticleSystem::GetCapacity() const
+{
+	return params.maxParticles;
+}
+
+// ------------------------------------------------------------
+
 void ParticleSystem::GenerateParticle()
 {
 	const bool drifting = distDrift(PartiKillburnRandomGeneration::randomGenerator) < params.driftPercentage;
 
-	particles[currentActiveParticles] = Particle(ParticleParams(params.bounds.GetRandomPoint(), distSize(PartiKillburnRandomGeneration::randomGenerator), drifting));
+	particles.push_back(Particle(ParticleParams(params.bounds.GetRandomPoint(), distSize(PartiKillburnRandomGeneration::randomGenerator), drifting)));
 }
 
 // ------------------------------------------------------------

@@ -71,6 +71,36 @@ namespace ParticleSystemTestFixture
 
 			Assert::AreEqual(maxCount, particleSystem.GetCurrentActiveParticles());
 		}
+
+		TEST_METHOD(IncreaseCapacity_MaxCountMultipliedBy10)
+		{
+			auto particleSystem = ParticleSystem(GetParams());
+
+			particleSystem.IncreaseCapacity();
+
+			Assert::AreEqual(GetParams().maxParticles * 10u, particleSystem.GetCapacity());
+		}
+
+		TEST_METHOD(DecreaseCapacity_MaxCountHalvedAndCurrentReducedToFit)
+		{
+			auto particleSystem = ParticleSystem(GetParams());
+
+			particleSystem.AddParticles(maxCount + 100);
+			particleSystem.DecreaseCapacity();
+
+			Assert::AreEqual((ParticleSystemCount)(GetParams().maxParticles * 0.5), particleSystem.GetCapacity());
+			Assert::AreEqual((ParticleSystemCount)(GetParams().maxParticles * 0.5), particleSystem.GetCurrentActiveParticles());
+		}
+
+		TEST_METHOD(Reset_ParticleCountBackToZero)
+		{
+			auto particleSystem = ParticleSystem(GetParams());
+
+			particleSystem.AddParticles(maxCount + 100);
+			particleSystem.Reset();
+
+			Assert::AreEqual(0u, particleSystem.GetCurrentActiveParticles());
+		}
 	};
 }
 

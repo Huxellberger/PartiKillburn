@@ -18,7 +18,7 @@ namespace PartiKillburn
 {
 	static ParticleSystemParams GetDefaultParticleParams()
 	{
-		return ParticleSystemParams(Bounds(Vector3(-30.0f, 5.0f, -20.0f), Vector3(30.0f, 5.0f, 15.0f)), ParticleColor(255.0f, 255.0f, 255.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
+		return ParticleSystemParams(Bounds(Vector3(-30.0f, 5.0f, -20.0f), Vector3(30.0f, 5.0f, 15.0f)), ParticleColor(1.0f, 1.0f, 1.0f, 1.0f), 0.2f, 1.7f, 1.0f, PartiKillburnConstants::DefaultParticleCount);
 	}
 
 	static std::vector<CollidableInterface*> GetCollidables()
@@ -27,6 +27,19 @@ namespace PartiKillburn
 	}
 
 	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition, GetCollidables());
+
+	static int menuId;
+
+	void OnSelection(int selection)
+	{
+		Engine.OnMenuSelected(selection);
+	}
+
+	void Init()
+	{
+		menuId = glutCreateMenu(PartiKillburn::OnSelection);
+		Engine.Initialise(); glutSetMenu(menuId);
+	}
 
 	void Update()
 	{
@@ -39,6 +52,11 @@ namespace PartiKillburn
 			const long sleepTime = (long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000);
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 		}
+	}
+
+	void Input(unsigned char key, int x, int y)
+	{
+		Engine.OnKeyboardSelection(key, x, y);
 	}
 
 	void Resize(int w, int h)
@@ -65,10 +83,12 @@ int main(int argc, char **argv)
 	glutInitWindowPosition(PartiKillburnConstants::WindowPositionX, PartiKillburnConstants::WindowPositionY);
 	glutInitWindowSize(PartiKillburnConstants::WindowSizeX, PartiKillburnConstants::WindowSizeY);
 	glutCreateWindow("Christmas ALREADY?");
+	glutFullScreen();
+	PartiKillburn::Init();
 
-	PartiKillburn::Engine.Initialise();
 	glutDisplayFunc(PartiKillburn::Update);
 	glutReshapeFunc(PartiKillburn::Resize);
+	glutKeyboardFunc(PartiKillburn::Input);
 	glutIdleFunc(PartiKillburn::Idle);
 	glutMainLoop();
 

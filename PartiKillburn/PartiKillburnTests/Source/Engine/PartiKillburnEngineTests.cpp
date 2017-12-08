@@ -59,10 +59,7 @@ namespace PartiKillburnEngineTestFixture
 			testEngine->Update();
 
 			Assert::IsTrue(testEngine->updateLifetimesCalled);
-			Assert::IsTrue(testEngine->updateVelocitiesCalled);
 			Assert::IsTrue(testEngine->updatePositionsCalled);
-			Assert::IsTrue(testEngine->sortAlphaBlendingCalled);
-			Assert::IsTrue(testEngine->transferTextureDataCalled);
 			Assert::IsTrue(testEngine->renderParticlesCalled);
 		}
 	};

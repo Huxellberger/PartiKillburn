@@ -14,10 +14,14 @@ class PartiKillburnEngine
 {
 public:
 
+	const static float MOVE_SPEED;
+
 	PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables);
 	PartiKillburnEngine(const PartiKillburnEngine& that) = delete;
 
 	void Initialise();
+	void OnMenuSelected(int selection);
+	void OnKeyboardSelection(unsigned char key, int x, int y);
 	void SetWindDirection(Vector3 inWindDirection);
 	void Update();
 	void Resize(int w, int h);
@@ -25,19 +29,18 @@ public:
 protected:
 
 	virtual void UpdateLifetimes();
-	// if verlet integration comes through for us we won't need this (don't need velocities for positions)
-	virtual void UpdateVelocities() {}
 	virtual void UpdatePositions();
-	virtual void SortAlphaBlending() {}
-	virtual void TransferTextureData() {}
 	virtual void RenderParticles();
 
+	void CreateMenu();
 	void SetView();
 
 	std::vector<CollidableInterface*> collidables;
 
 	ParticleSystem particleSystem;
+	Particle sun;
 
+	Vector3 currentPosition;
 	Vector3 windDirection;
 
 	// verlet integration relies on a constant time delta
