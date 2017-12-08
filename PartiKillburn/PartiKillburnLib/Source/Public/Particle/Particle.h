@@ -107,18 +107,21 @@ public:
 		// trail
 		if (!resting)
 		{
-			// Trail transparency
-			glColor4f(inColor.r * 0.9f, inColor.g * 0.9f, inColor.b * 0.9f, inColor.a * 0.2f);
-
-			auto&& trailStartPosition = currentPosition - ((currentPosition - priorPosition).Scale(10.0f));
-
+			float currentAlpha = 0.8f;
+			auto&& trailStartPosition = currentPosition - ((currentPosition - priorPosition).Scale(15.0f * size));
+			auto&& trailEndPosition = currentPosition;
 			const float halfOffset = size * 0.5f;
+
+			// Trail transparency
+			glColor4f(inColor.r * 0.9f, inColor.g * 0.9f, inColor.b * 0.7f, inColor.a * currentAlpha);
 
 			glBegin(GL_LINES);
 			glVertex3f(trailStartPosition.x + halfOffset, trailStartPosition.y, trailStartPosition.z + halfOffset);
-			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + size, currentPosition.z + halfOffset);
+			glVertex3f(trailEndPosition.x + halfOffset, trailEndPosition.y, trailEndPosition.z + halfOffset);
 			glVertex3f(trailStartPosition.x - halfOffset, trailStartPosition.y, trailStartPosition.z - halfOffset);
-			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + size, currentPosition.z - halfOffset);
+			glVertex3f(trailEndPosition.x - halfOffset, trailEndPosition.y, trailEndPosition.z - halfOffset);
+			glVertex3f(trailStartPosition.x, trailStartPosition.y + halfOffset, trailStartPosition.z);
+			glVertex3f(trailEndPosition.x, trailEndPosition.y + halfOffset, trailEndPosition.z);
 			glEnd();
 		}
 		// splat

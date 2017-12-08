@@ -52,6 +52,11 @@ namespace PartiKillburn
 			const long sleepTime = (long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000);
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 		}
+		else
+		{
+			// Update is too short, scale to make sure we can complete all of it in time
+			PartiKillburnConstants::UpdateSpeedSeconds *= 2.0f;
+		}
 	}
 
 	void Input(unsigned char key, int x, int y)

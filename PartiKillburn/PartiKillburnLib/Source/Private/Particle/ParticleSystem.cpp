@@ -36,6 +36,8 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::Reset()
 {
 	currentActiveParticles = 0;
+	particles.clear();
+	particles.reserve(params.maxParticles);
 }
 
 // ------------------------------------------------------------
@@ -55,6 +57,8 @@ void ParticleSystem::DecreaseCapacity()
 	if (currentActiveParticles > params.maxParticles)
 	{
 		currentActiveParticles = params.maxParticles;
+		particles.resize(currentActiveParticles);
+		particles.reserve(params.maxParticles);
 	}
 }
 

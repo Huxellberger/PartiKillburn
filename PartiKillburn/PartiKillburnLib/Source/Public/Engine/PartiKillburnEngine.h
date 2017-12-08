@@ -6,6 +6,7 @@
 #include "PartiKillburnLib/Source/Public/Particle/ParticleSystem.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
 
+#include <random>
 #include <vector>
 
 // ------------------------------------------------------------
@@ -42,6 +43,8 @@ protected:
 
 	Vector3 currentPosition;
 	Vector3 windDirection;
+
+	std::uniform_real_distribution<float> windDist;
 
 	// verlet integration relies on a constant time delta
 	const float updateDeltaSeconds;

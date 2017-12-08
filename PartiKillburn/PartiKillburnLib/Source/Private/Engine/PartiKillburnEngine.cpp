@@ -16,9 +16,10 @@ const float PartiKillburnEngine::MOVE_SPEED = 0.3f;
 PartiKillburnEngine::PartiKillburnEngine(const ParticleSystem& inSystem, const float inUpdateDeltaSeconds, const float inGroundYPosition, const std::vector<CollidableInterface*>& inCollidables)
 	: collidables(inCollidables)
 	, particleSystem(inSystem)
-	, sun(ParticleParams(Vector3(1000.0f, 20.0f, 1000.0f), 100.0f, false))
+	, sun(ParticleParams(Vector3(-75.0f, 15.0f, -75.0f), 10.0f, false))
 	, currentPosition(Vector3(0.0, 10.0f, 40.0f))
 	, windDirection()
+	, windDist(-14.0f, 14.0f)
 	, updateDeltaSeconds(inUpdateDeltaSeconds)
 	, groundYPosition(inGroundYPosition)
 {
@@ -214,6 +215,30 @@ void PartiKillburnEngine::OnKeyboardSelection(unsigned char key, int x, int y)
 	case 122:
 		currentPosition.y -= MOVE_SPEED;
 		break;
+	// m
+	case 109:
+		particleSystem.IncreaseCapacity();
+		break;
+	// l
+	case 108:
+		particleSystem.DecreaseCapacity();
+		break;
+	// r
+	case 114:
+		particleSystem.Reset();
+		break;
+	// o
+	case 111:
+		SetWindDirection
+		(
+			Vector3
+			(
+				(windDist(PartiKillburnRandomGeneration::randomGenerator) + windDist(PartiKillburnRandomGeneration::randomGenerator)) * 2.0f,
+				0.0f,
+				(windDist(PartiKillburnRandomGeneration::randomGenerator) + windDist(PartiKillburnRandomGeneration::randomGenerator)) * 2.0f
+			)
+		);
+		particleSystem.Reset();
 	default:
 		break;
 	}
