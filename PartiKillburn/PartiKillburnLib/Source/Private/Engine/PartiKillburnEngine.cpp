@@ -90,35 +90,10 @@ void PartiKillburnEngine::RenderParticles()
 
 	auto&& color = particleSystem.GetParticleColor();
 
+	// Particles
 	for (ParticleSystemCount currentParticle = 0; currentParticle < particleSystem.GetCurrentActiveParticles(); ++currentParticle)
 	{
-		auto&& particle = particleSystem.particles[currentParticle];
-		auto&& currentPosition = particle.currentPosition;
-
-		// Trails
-		glColor4f(color.r, color.g, color.b, color.a * 0.2f);
-
-		if (!particleSystem.particles[currentParticle].resting)
-		{
-			auto&& startPosition = particle.GetStartPosition();
-			auto&& trailStartPosition = currentPosition - ((currentPosition - particle.GetStartPosition()).Scale(0.1f));
-			float particleOffset = particle.GetSize();
-			float halfOffset = particleOffset * 0.5f;
-
-			glBegin(GL_POLYGON);
-			glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
-			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
-			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
-			glEnd();
-		}
-
-		// Solid Snow
-		glColor4f(color.r, color.g, color.b, color.a);
-
-		glPushMatrix();
-		glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
-		glutSolidSphere(particle.GetSize(), 20, 20);
-		glPopMatrix();
+		particleSystem.particles[currentParticle].DrawCollidable(color);
 	}
 
 	glutSwapBuffers();

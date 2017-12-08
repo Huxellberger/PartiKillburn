@@ -59,6 +59,8 @@ public:
 	ParticleSystem();
 	ParticleSystem(const ParticleSystemParams& inSystemParams);
 
+	virtual ~ParticleSystem();
+
 	void AddParticles(ParticleSystemCount numberToAdd);
 	const ParticleSystemCount GetCurrentActiveParticles() const;
 	const ParticleColor GetParticleColor() const;

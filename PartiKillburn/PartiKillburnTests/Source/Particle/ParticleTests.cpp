@@ -74,6 +74,20 @@ namespace ParticleTestFixture
 
 			Assert::AreEqual(expectedPosition, testParticle.currentPosition);
 		}
+
+		TEST_METHOD(HasCollided_PointOutsideRadius_False)
+		{
+			auto testParticle = Particle(ParticleParams(Vector3(), 10.0f, false));
+
+			Assert::IsFalse(testParticle.HasCollided(Vector3(10.1f, 10.1f, 10.1f)));
+		}
+
+		TEST_METHOD(HasCollided_PointInsideRadius_True)
+		{
+			auto testParticle = Particle(ParticleParams(Vector3(), 10.0f, false));
+
+			Assert::IsTrue(testParticle.HasCollided(Vector3(4.9f, 4.9f, 4.9f)));
+		}
 	};
 }
 

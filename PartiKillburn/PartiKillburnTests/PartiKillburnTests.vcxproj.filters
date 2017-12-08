@@ -56,5 +56,8 @@
     <ClCompile Include="Source\Particle\ParticleColorTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Collidable\CollidableBoxTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -137,6 +137,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\Collidable\CollidableBox.h" />
+    <ClInclude Include="Source\Public\Collidable\CollidableInterface.h" />
     <ClInclude Include="Source\Public\Engine\PartiKillburnEngine.h" />
     <ClInclude Include="Source\Public\Engine\PartiKillburnEngineConstants.h" />
     <ClInclude Include="Source\Public\Engine\RandomGeneration.h" />
@@ -149,6 +151,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\Collidable\CollidableBox.cpp" />
     <ClCompile Include="Source\Private\Engine\PartiKillburnEngine.cpp" />
     <ClCompile Include="Source\Private\Particle\Particle.cpp" />
     <ClCompile Include="Source\Private\Particle\ParticleSystem.cpp" />

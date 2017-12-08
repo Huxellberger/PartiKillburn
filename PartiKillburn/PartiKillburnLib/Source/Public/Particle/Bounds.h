@@ -27,6 +27,21 @@ public:
 	{
 	}
 
+	const Vector3 GetStartExtent() const
+	{
+		return startExtent;
+	}
+
+	const Vector3 GetEndExtent() const
+	{
+		return endExtent;
+	}	
+
+	const Vector3 GetCentre() const
+	{
+		return Vector3(((startExtent.x + endExtent.x) * 0.5f), ((startExtent.y + endExtent.y) * 0.5f), ((startExtent.z + endExtent.z) * 0.5f));
+	}
+
 	Vector3 GetRandomPoint() const
 	{
 		return Vector3

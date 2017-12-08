@@ -2,8 +2,11 @@
 
 #pragma once
 
+#include "PartiKillburnLib/Source/Public/Collidable/CollidableInterface.h"
 #include "PartiKillburnLib/Source/Public/Engine/PartiKillburnEngineConstants.h"
 #include "PartiKillburnLib/Source/Public/Particle/Vector3.h"
+
+#include <Dependencies/freeglut/freeglut.h>
 
 // ------------------------------------------------------------
 
@@ -33,6 +36,7 @@ public:
 // ------------------------------------------------------------
 
 class Particle
+	: public CollidableInterface
 {
 public:
 
@@ -79,6 +83,58 @@ public:
 	{
 		return priorPosition;
 	}
+
+	// CollidableInterface
+	virtual inline bool HasCollided(const Vector3& inPoint) const override final
+	{
+		if (resting)
+		{
+			return true;
+		}
+
+		const Vector3 distanceApart = currentPosition - inPoint;
+
+		const float magnitueSquared = (distanceApart.x * distanceApart.x) + (distanceApart.y * distanceApart.y) + (distanceApart.z *distanceApart.z);
+
+		return magnitueSquared < (size * size);
+	}
+
+	virtual inline void DrawCollidable(const ParticleColor& inColor) override final
+	{
+		// trail
+		if (!resting)
+		{
+			// Trail transparency
+			glColor4f(inColor.r, inColor.g, inColor.b, inColor.a * 0.2f);
+
+			auto&& trailStartPosition = currentPosition - ((currentPosition - startPosition).Scale(0.1f));
+
+			const float particleOffset = size;
+			const float halfOffset = particleOffset * 0.5f;
+
+			glBegin(GL_POLYGON);
+			glVertex3f(trailStartPosition.x, trailStartPosition.y, trailStartPosition.z);
+			glVertex3f(currentPosition.x + halfOffset, currentPosition.y + particleOffset, currentPosition.z + halfOffset);
+			glVertex3f(currentPosition.x - halfOffset, currentPosition.y + particleOffset, currentPosition.z - halfOffset);
+			glEnd();
+		}
+		// splat
+		else
+		{
+			// Splat code
+		}
+
+		// normal particle
+
+		// Solid Snow
+		glColor4f(inColor.r, inColor.g, inColor.b, inColor.a);
+
+		glPushMatrix();
+		glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
+		glutSolidSphere(size, 20, 20);
+		glPopMatrix();
+	}
+	// ~CollidableInterface
 
 	Vector3 currentPosition;
 	bool resting;

@@ -25,6 +25,13 @@ ParticleSystem::ParticleSystem(const ParticleSystemParams& inParams)
 
 // ------------------------------------------------------------
 
+ParticleSystem::~ParticleSystem()
+{
+	// delete[params.maxParticles] particles;
+}
+
+// ------------------------------------------------------------
+
 void ParticleSystem::AddParticles(ParticleSystemCount numberToAdd)
 {
 	for (ParticleSystemCount currentAddition = 0; currentAddition < numberToAdd; ++currentAddition)

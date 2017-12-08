@@ -159,6 +159,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Collidable\CollidableBoxTests.cpp" />
     <ClCompile Include="Source\Engine\PartiKillburnEngineTests.cpp" />
     <ClCompile Include="Source\Particle\BoundsTests.cpp" />
     <ClCompile Include="Source\Particle\ParticleColorTests.cpp" />
