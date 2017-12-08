@@ -66,11 +66,12 @@ public:
 	void AddParticles(ParticleSystemCount numberToAdd);
 	void IncreaseCapacity();
 	void DecreaseCapacity();
+	void MaxOutParticles();
 	const ParticleSystemCount GetCurrentActiveParticles() const;
 	const ParticleColor GetParticleColor() const;
 	const ParticleSystemCount GetCapacity() const;
 
-	std::vector<Particle> particles;
+	Particle* particles;
 
 private:
 

@@ -23,11 +23,15 @@ namespace PartiKillburn
 
 	static std::vector<CollidableInterface*> GetCollidables()
 	{
-		return std::vector<CollidableInterface*>{new CollidableBox(Bounds(Vector3(0.0f, PartiKillburnConstants::GroundPosition, 0.0f), Vector3(10.0f, -10.0f, 5.0f)))};
+		return std::vector<CollidableInterface*>
+		{
+			new CollidableBox(Bounds(Vector3(0.0f, PartiKillburnConstants::GroundPosition, 0.0f), Vector3(10.0f, -10.0f, 5.0f))),
+			new CollidableBox(Bounds(Vector3(-30.0f, PartiKillburnConstants::GroundPosition, -20.0f), Vector3(30.0f, -5.0f, -15.0f)))
+		};
 	}
 
 	static PartiKillburnEngine Engine(ParticleSystem(GetDefaultParticleParams()), PartiKillburnConstants::UpdateSpeedSeconds, PartiKillburnConstants::GroundPosition, GetCollidables());
-
+	static float StartingUpdateSpeed;
 	static int menuId;
 
 	void OnSelection(int selection)
@@ -37,6 +41,7 @@ namespace PartiKillburn
 
 	void Init()
 	{
+		StartingUpdateSpeed = PartiKillburnConstants::UpdateSpeedSeconds;
 		menuId = glutCreateMenu(PartiKillburn::OnSelection);
 		Engine.Initialise(); glutSetMenu(menuId);
 	}
@@ -51,6 +56,11 @@ namespace PartiKillburn
 		{
 			const long sleepTime = (long)((PartiKillburnConstants::UpdateSpeedSeconds - timespan.count()) * 1000);
 			std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+
+			if (timespan.count() < PartiKillburnConstants::UpdateSpeedSeconds * 0.5)
+			{
+				PartiKillburnConstants::UpdateSpeedSeconds =  StartingUpdateSpeed;
+			}
 		}
 		else
 		{

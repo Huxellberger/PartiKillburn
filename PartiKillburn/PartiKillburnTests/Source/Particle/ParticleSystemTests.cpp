@@ -89,7 +89,7 @@ namespace ParticleSystemTestFixture
 			particleSystem.DecreaseCapacity();
 
 			Assert::AreEqual((ParticleSystemCount)(GetParams().maxParticles * 0.5), particleSystem.GetCapacity());
-			Assert::AreEqual((ParticleSystemCount)(GetParams().maxParticles * 0.5), particleSystem.GetCurrentActiveParticles());
+			Assert::AreEqual(0u, particleSystem.GetCurrentActiveParticles());
 		}
 
 		TEST_METHOD(Reset_ParticleCountBackToZero)

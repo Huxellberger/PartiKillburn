@@ -77,6 +77,11 @@ public:
 		return size;
 	}
 
+	inline const void SetSize(const float inNewSize)
+	{
+		size = inNewSize;
+	}
+
 	inline const Vector3 GetStartPosition() const
 	{
 		return startPosition;

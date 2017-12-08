@@ -15,20 +15,20 @@ ParticleSystem::ParticleSystem()
 // ------------------------------------------------------------
 
 ParticleSystem::ParticleSystem(const ParticleSystemParams& inParams)
-	: particles()
+	: particles(new Particle[inParams.maxParticles])
 	, distSize(inParams.minSize, inParams.maxSize)
 	, distDrift(0.0f, 1.0f)
 	, params(inParams)
 	, currentActiveParticles(0u)
 {
-	particles.reserve(params.maxParticles);
 }
 
 // ------------------------------------------------------------
 
 ParticleSystem::~ParticleSystem()
 {
-	particles.empty();
+	// delete[params.maxParticles] particles;
+	// currentActiveParticles = 0;
 }
 
 // ------------------------------------------------------------
@@ -36,30 +36,28 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::Reset()
 {
 	currentActiveParticles = 0;
-	particles.clear();
-	particles.reserve(params.maxParticles);
 }
 
 // ------------------------------------------------------------
 
 void ParticleSystem::IncreaseCapacity()
 {
+	delete[params.maxParticles] particles;
+
 	params.maxParticles *= 10;
-	particles.reserve(params.maxParticles);
+	particles = new Particle[params.maxParticles];
 }
 
 // ------------------------------------------------------------
 
 void ParticleSystem::DecreaseCapacity()
 {
-	params.maxParticles *= 0.5;
+	delete[params.maxParticles] particles;
 
-	if (currentActiveParticles > params.maxParticles)
-	{
-		currentActiveParticles = params.maxParticles;
-		particles.resize(currentActiveParticles);
-		particles.reserve(params.maxParticles);
-	}
+	currentActiveParticles = 0u;
+
+	params.maxParticles *= 0.5;
+	particles = new Particle[params.maxParticles];
 }
 
 // ------------------------------------------------------------
@@ -99,11 +97,18 @@ const ParticleSystemCount ParticleSystem::GetCapacity() const
 
 // ------------------------------------------------------------
 
+void ParticleSystem::MaxOutParticles()
+{
+	AddParticles(params.maxParticles);
+}
+
+// ------------------------------------------------------------
+
 void ParticleSystem::GenerateParticle()
 {
 	const bool drifting = distDrift(PartiKillburnRandomGeneration::randomGenerator) < params.driftPercentage;
 
-	particles.push_back(Particle(ParticleParams(params.bounds.GetRandomPoint(), distSize(PartiKillburnRandomGeneration::randomGenerator), drifting)));
+	particles[currentActiveParticles] = Particle(ParticleParams(params.bounds.GetRandomPoint(), distSize(PartiKillburnRandomGeneration::randomGenerator), drifting));
 }
 
 // ------------------------------------------------------------

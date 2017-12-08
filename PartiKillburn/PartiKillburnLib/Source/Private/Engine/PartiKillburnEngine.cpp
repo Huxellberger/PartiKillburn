@@ -92,6 +92,17 @@ void PartiKillburnEngine::UpdatePositions()
 					particleSystem.particles[currentParticle].resting = true;
 				}
 			}
+
+			/*
+			for (ParticleSystemCount possibleCollider = currentParticle + 1; possibleCollider < particleSystem.GetCurrentActiveParticles(); ++possibleCollider)
+			{
+				if (particleSystem.particles[currentParticle].HasCollided(particleSystem.particles[possibleCollider].currentPosition))
+				{
+					particleSystem.particles[currentParticle].SetSize(particleSystem.particles[currentParticle].GetSize() + particleSystem.particles[possibleCollider].GetSize());
+					particleSystem.particles[possibleCollider].currentPosition = particleSystem.particles[possibleCollider].GetStartPosition();
+				}
+			}
+			*/
 		}
 	}
 }
@@ -102,6 +113,7 @@ void PartiKillburnEngine::RenderParticles()
 {
 	SetView();
 	glDisable(GL_LIGHTING);
+	glDepthFunc(GL_LESS);
 
 	auto&& color = particleSystem.GetParticleColor();
 	auto&& collidableColor = ParticleColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -226,6 +238,10 @@ void PartiKillburnEngine::OnKeyboardSelection(unsigned char key, int x, int y)
 	// r
 	case 114:
 		particleSystem.Reset();
+		break;
+	// k
+	case 107:
+		particleSystem.MaxOutParticles();
 		break;
 	// o
 	case 111:
